@@ -5,12 +5,11 @@ import NavigationItem from './NavigationItem/NavigationItem';
 
 const list = (props) => (
   <ul className={classes.NavigationList}>
-    <NavigationItem
-      link="/"
+    <NavigationItem link="/" exact
     >BurgerBuilder </NavigationItem>
     <NavigationItem
-      link="/checkout"
-    >Checkout</NavigationItem>
+      link="/orders"
+    >Orders</NavigationItem>
   </ul>
 );
 export default list;
