@@ -3,18 +3,18 @@ import classes from './Order.css';
 
 
 const name = (props) => {
-  // TODO 213
-   let ingredients = Object.keys(props.ingredients).join(' ' )
-  // .map(igKeys => {
-  //   return [...Array(props.ingredients[igKeys])].map((_, i) => {
-  //     return <p key={igKeys + i} type={igKeys}>{igKeys}</p>
-  //   });
-  // })
+
+   let ingredients = Object.keys(props.ingredients).map(i=>{
+     return {name: i, ammount: props.ingredients[i] }
+   }).map( ing => {
+     return <p className={classes.OrderIngredient} key={ing.name}>{ing.name} - {ing.ammount}</p>;
+       });
+
 
   return(
     <div className={classes.Order}>
       <p>Ingredients: </p>
-      <p> {ingredients}</p>
+      {ingredients}
       <p>Price <strong>{props.price.toFixed(2)}</strong></p>
     </div>
   );
