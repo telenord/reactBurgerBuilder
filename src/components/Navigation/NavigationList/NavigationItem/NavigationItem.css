@@ -39,7 +39,7 @@
     .NavigationItem a:hover,
     .NavigationItem a:active,
     .NavigationItem a.active{
-        color: #8f5c2c;
+        color: #fff;
         text-decoration: none;
         border-bottom: 4px solid #40a4c8;
 
