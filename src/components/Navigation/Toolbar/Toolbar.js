@@ -7,16 +7,16 @@ import NavToggle from '../../Navigation/NavToggle/NavToggle';
 
 
 const toolbar = (props) => (
-    <header className={classes.Toolbar}>
-        <NavToggle clicked={props.toggleSideDrawer}/>
-        <div className={classes.Logo}>
-            <Logo/>
-        </div>
-        <nav className={classes.DesktopOnly}>
-            <NavigationList />
-        </nav>
+  <header className={classes.Toolbar}>
+    <NavToggle clicked={props.toggleSideDrawer}/>
+    <div className={classes.Logo}>
+      <Logo/>
+    </div>
+    <nav className={classes.DesktopOnly}>
+      <NavigationList/>
+    </nav>
 
-    </header>
+  </header>
 );
 export default toolbar;
 
