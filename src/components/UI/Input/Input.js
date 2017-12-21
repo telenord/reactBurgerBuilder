@@ -3,9 +3,6 @@ import classes from './Input.css';
 
 const input = (props) => {
   let inputElement = null;
-  if (props.elementConfig && props.elementConfig.options) {
-    console.log(props.elementConfig.options[0].value);
-  }
 
   switch (props.elementType) {
     case('input'):

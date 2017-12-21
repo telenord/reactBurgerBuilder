@@ -75,7 +75,7 @@ class ContactData extends Component {
     this.setState({loading: true});
     const formData = {};
 
-    Object.keys(this.state.orderForm).map((key) => {
+    Object.keys(this.state.orderForm).forEach((key) => {
       formData[key]= this.state.orderForm[key].value;
     });
 
