@@ -6,6 +6,7 @@ import * as actions from "../../store/actions/index";
 import { connect } from 'react-redux';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { Redirect } from 'react-router-dom';
+import { checkValidity } from '../../shared/utility';
 
 class Auth extends Component {
   state = {
@@ -52,34 +53,13 @@ class Auth extends Component {
 
   }
 
-  checkValidity(elem) {
-    let isValid = true;
 
-    if (!elem.validation) {
-      return elem.valid = true;
-    }
-
-    if (elem.validation.require) {
-      isValid = elem.value.trim() !== '' && isValid;
-      elem.errorMessage = isValid ? elem.errorMessage : 'Enter text';
-    }
-    if (elem.validation.minLength) {
-      isValid = elem.value.length >= elem.validation.minLength && isValid;
-      elem.errorMessage = isValid ? elem.errorMessage : `MinLength is ${elem.validation.minLength}`;
-    }
-    if (elem.validation.maxLength) {
-      isValid = elem.value.length <= elem.validation.maxLength && isValid;
-      elem.errorMessage = isValid ? elem.errorMessage : `MaxLength is ${elem.validation.minLength}`;
-    }
-    elem.valid = isValid;
-    return elem;
-  }
 
   inputChangedHandler = (event, inputIdentifier) => {
     const updatedOrderForm = {...this.state.controls};
     const updatedFormElement = {...updatedOrderForm[inputIdentifier]};
     updatedFormElement.value = event.target.value;
-    this.checkValidity(updatedFormElement);
+    checkValidity(updatedFormElement);
     updatedFormElement.touched = true;
     updatedOrderForm[inputIdentifier] = updatedFormElement;
 

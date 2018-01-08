@@ -8,6 +8,7 @@ import Input from "../../../components/UI/Input/Input";
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import * as orderAction from '../../../store/actions';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+import { checkValidity } from '../../../shared/utility';
 
 
 
@@ -104,30 +105,6 @@ class ContactData extends Component {
     formIsValid: false,
   };
 
-  checkValidity(elem) {
-    let isValid = true;
-
-    if (!elem.validation) {
-      return elem.valid = true;
-    }
-
-    if (elem.validation.require) {
-      isValid = elem.value.trim() !== '' && isValid;
-      elem.errorMessage = isValid ? elem.errorMessage : 'Enter text';
-    }
-    if (elem.validation.minLength) {
-      isValid = elem.value.length >= elem.validation.minLength && isValid;
-      elem.errorMessage = isValid ? elem.errorMessage : `MinLength is ${elem.validation.minLength}`;
-    }
-    if (elem.validation.maxLength) {
-      isValid = elem.value.length <= elem.validation.maxLength && isValid;
-      elem.errorMessage = isValid ? elem.errorMessage : `MaxLength is ${elem.validation.minLength}`;
-    }
-    elem.valid = isValid;
-    return elem;
-  }
-
-
   orderHandler = (event) => {
     event.preventDefault();
     const formData = {};
@@ -141,14 +118,14 @@ class ContactData extends Component {
       orderData: formData,
       userId: this.props.userId,
     };
-    this.props.onPurchaseBurger(order);
+    this.props.onPurchaseBurger(order, this.props.token);
   };
 
   inputChangedHandler = (event, inputIdentifier) => {
     const updatedOrderForm = {...this.state.orderForm};
     const updatedFormElement = {...updatedOrderForm[inputIdentifier]};
     updatedFormElement.value = event.target.value;
-    this.checkValidity(updatedFormElement);
+    checkValidity(updatedFormElement);
     updatedFormElement.touched = true;
     updatedOrderForm[inputIdentifier] = updatedFormElement;
 
@@ -207,11 +184,12 @@ const mapStateToProps = state => {
     totalPrice: state.burgerBuilder.totalPrice,
     loading: state.order.loading,
     userId: state.auth.userId,
+    token : state.auth.token,
   }
 };
 const mapDispatchToProps = dispatch => {
   return {
-    onPurchaseBurger: (order) => dispatch(orderAction.purchaseBurger(order))
+    onPurchaseBurger: (order,token) => dispatch(orderAction.purchaseBurger(order,token))
   }
 };
 
