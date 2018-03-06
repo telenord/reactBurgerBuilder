@@ -16,6 +16,8 @@ class App extends Component {
   componentDidMount(){
     this.props.onTryAutoSignIn();
   }
+
+
   render() {
     let routes =(
       <Switch>
@@ -41,6 +43,7 @@ class App extends Component {
       <div>
         <Layout>
           {routes}
+          <input type="text" onChange={() =>this.changeHandler}/>
         </Layout>
       </div>
     );

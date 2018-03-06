@@ -1,16 +1,20 @@
-import { delay } from 'redux-saga';
-import { put } from 'redux-saga/effects';
+import { delay} from 'redux-saga';
+import { put, call } from 'redux-saga/effects';
 import * as actions from '../actions/index';
-import { authFail, authStart, authSuccess, checkoutAuthTimeout, logout } from '../actions/auth';
 import axios from 'axios/index';
 
 const BASE_API_URL = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty';
 const API_KEY = '?key=AIzaSyA_bLWqGlT1OmxFyQyOEnmImoj-JC2LeEk';
 
 export function* logoutSaga(action) {
-    yield localStorage.removeItem('token');
-    yield localStorage.removeItem('expDate');
-    yield localStorage.removeItem('userId');
+    /*
+    * use call() better to test
+    * yield localStorage.removeItem('expDate');    *
+    * */
+    yield call([localStorage, 'removeItem'],'token');
+    yield call([localStorage, 'removeItem'],'expDate');
+    yield call([localStorage, 'removeItem'],'userId');
+
     yield put(actions.logoutSucceed())
 }
 
@@ -20,7 +24,7 @@ export function* checkoutAuthTimeoutSaga(action) {
 }
 
 export function* authUserSaga(action) {
-    put(actions.authStart());
+    yield put(actions.authStart());
     const authData = {
         email: action.email,
         password: action.password,
@@ -49,16 +53,15 @@ export function* authUserSaga(action) {
 export function* authCheckStateSaga(action) {
     const token = yield localStorage.getItem('token');
     if (!token) {
-        put(actions.logout());
+        yield put(actions.logout());
     } else {
         const expDate = yield new Date(localStorage.getItem('expDate'));
         if (expDate <= new Date()) {
-            put(actions.logout());
+            yield put(actions.logout());
         } else {
             const userId = yield localStorage.getItem('userId');
-            put(actions.authSuccess(token, userId));
-            put(actions.checkoutAuthTimeout((expDate.getTime() - new Date().getTime()) / 1000));
+            yield put(actions.authSuccess(token, userId));
+            yield put(actions.checkoutAuthTimeout((expDate.getTime() - new Date().getTime()) / 1000));
         }
-
     }
-};
+}
